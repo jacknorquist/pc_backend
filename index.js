@@ -4,6 +4,7 @@ const app = express();
 const config = require('./config/config');
 const port = process.env.PORT || 3000;
 const { Sequelize, DataTypes } = require('sequelize');
+const authenticate = require('./middleware/auth');
 
 
 const dbConfig = config.development;
@@ -14,32 +15,32 @@ app.use(express.json());
 // Create a Sequelize instance
 const sequelize = new Sequelize(dbConfig);
 
-// Define a Product model
-const Product = sequelize.define('Product', {
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: true
-  }
-});
-
 // Sync the database
 sequelize.sync().then(() => {
   console.log('Database & tables created!');
 });
 
 // Define routes
-app.get('/api/products', async (req, res) => {
-  try {
+app.get('/products', (req, res) => {
+  res.json({ message: 'This is a protected route' });
+});
 
-    const products = await Product.findAll();
-    res.json(products);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
+app.get('/product:productName', async (req, res) => {
+  const productId = req.params.productId;
+  try {
+    // Query the database for the product
+    const product = await Product.findByPk(productId);
+
+    if (product) {
+      // Send the product details as a response
+      res.json(product);
+    } else {
+      // Product not found
+      res.status(404).json({ error: 'Product not found' });
+    }
+  } catch (error) {
+    // Handle errors
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
