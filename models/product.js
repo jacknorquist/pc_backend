@@ -1,7 +1,5 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const config = require('./config/config');
-const dbConfig = config.development;
-const sequelize = new Sequelize(dbConfig);
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 const Manufacturer = require('./manufacturer');
  // Adjust the path if necessary
 
@@ -42,7 +40,4 @@ const Manufacturer = require('./manufacturer');
     },
   ],
 });
-
-Product.belongsTo(Manufacturer, { foreignKey: 'manufacturer_id', as: 'manufacturer' });
-Manufacturer.hasMany(Product, { foreignKey: 'manufacturer_id', as: 'products' });
 module.exports = Product;

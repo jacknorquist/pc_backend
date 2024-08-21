@@ -1,19 +1,18 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const config = require('./config/config');
 const port = process.env.PORT || 3000;
-const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = require('./config/database');
 const authenticate = require('./middleware/auth');
+const models = require('./models');
 
 
-const dbConfig = config.development;
 
 // Middleware to parse JSON
 app.use(express.json());
+//Middleware to authenticate
+app.use(authenticate())
 
-// Create a Sequelize instance
-const sequelize = new Sequelize(dbConfig);
 
 // Sync the database
 sequelize.sync().then(() => {
@@ -21,8 +20,13 @@ sequelize.sync().then(() => {
 });
 
 // Define routes
-app.get('/products', (req, res) => {
-  res.json({ message: 'This is a protected route' });
+app.get('/products', async (req, res) => {
+  try {
+    const products = await models.Product.findAll();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 app.get('/product:productName', async (req, res) => {

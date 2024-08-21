@@ -1,7 +1,5 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const config = require('./config/config');
-const dbConfig = config.development;
-const sequelize = new Sequelize(dbConfig);
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 const Product = require('./product');
 const Color = require('./color');
 
@@ -36,9 +34,6 @@ const ProductImage = sequelize.define('ProductImage', {
   tableName: 'product_images',
 });
 
-ProductImage.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });
-Product.hasMany(ProductImage, { foreignKey: 'product_id', as: 'images' });
-ProductImage.belongsTo(Color, { foreignKey: 'color_id', as: 'color' });
-Color.hasMany(ProductImage, { foreignKey: 'color_id', as: 'color_images' });
+
 
 module.exports = ProductImage;

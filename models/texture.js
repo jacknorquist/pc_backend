@@ -1,7 +1,5 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const config = require('./config/config');
-const dbConfig = config.development;
-const sequelize = new Sequelize(dbConfig);
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 const Product = require('./product');
 
 
@@ -31,7 +29,4 @@ const Texture = sequelize.define('Texture', {
   tableName: 'textures',
 });
 
-Texture.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });
-Product.hasMany(Texture, { foreignKey: 'product_id', as: 'textures' });
-
-module.export; Texture
+module.exports = Texture

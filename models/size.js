@@ -1,7 +1,5 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const config = require('./config/config');
-const dbConfig = config.development;
-const sequelize = new Sequelize(dbConfig);
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 const Product = require('./product');
 
 
@@ -33,7 +31,6 @@ const Size = sequelize.define('Size', {
   tableName: 'sizes',
 });
 
-Size.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });
-Product.hasMany(Size, { foreignKey: 'product_id', as: 'sizes' });
+
 
 module.exports = Size;
