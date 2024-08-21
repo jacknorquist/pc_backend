@@ -34,6 +34,7 @@ sequelize.sync().then(() => {
 // Define routes
 app.get('/api/products', async (req, res) => {
   try {
+
     const products = await Product.findAll();
     res.json(products);
   } catch (err) {
