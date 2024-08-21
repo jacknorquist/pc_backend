@@ -27,6 +27,7 @@ const Texture = sequelize.define('Texture', {
   },
 }, {
   tableName: 'textures',
+  timestamps: false,
 });
 
 module.exports = Texture

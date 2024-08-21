@@ -33,6 +33,7 @@ const Manufacturer = require('./manufacturer');
   },
 }, {
   tableName: 'products',
+  timestamps: false,
   indexes: [
     {
       name: 'ix_product_manufacturer_id',

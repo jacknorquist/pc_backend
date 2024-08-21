@@ -3,29 +3,23 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 const sequelize = require('./config/database');
-const authenticate = require('./middleware/auth');
-const models = require('./models');
+const authenticate = require('./middleware/auth')
+const {Product, Manufacturer, Color, Texture, Size, ProductImage} = require('./models/index');
 
 
 
 // Middleware to parse JSON
 app.use(express.json());
 //Middleware to authenticate
-app.use(authenticate())
-
-
-// Sync the database
-sequelize.sync().then(() => {
-  console.log('Database & tables created!');
-});
+// app.use(authenticate)
 
 // Define routes
 app.get('/products', async (req, res) => {
   try {
-    const products = await models.Product.findAll();
+    const products = await Product.findAll();
     res.json(products);
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: error });
   }
 });
 

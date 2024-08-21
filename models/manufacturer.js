@@ -15,6 +15,7 @@ const Manufacturer = sequelize.define('Manufacturer', {
   },
 }, {
   tableName: 'manufacturers',
+  timestamps: false,
 });
 
 module.exports = Manufacturer;

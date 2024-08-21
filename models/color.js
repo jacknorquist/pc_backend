@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const Product = require('./product');
-const ProductImage = require('./productImage');
+
 
 const Color = sequelize.define('Color', {
   id: {
@@ -34,6 +34,7 @@ const Color = sequelize.define('Color', {
   },
 }, {
   tableName: 'colors',
+  timestamps: false,
 });
 
 module.exports = Color;

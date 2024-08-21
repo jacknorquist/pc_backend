@@ -29,6 +29,7 @@ const Size = sequelize.define('Size', {
   },
 }, {
   tableName: 'sizes',
+  timestamps: false,
 });
 
 

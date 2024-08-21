@@ -32,6 +32,7 @@ const ProductImage = sequelize.define('ProductImage', {
   },
 }, {
   tableName: 'product_images',
+  timestamps: false,
 });
 
 
