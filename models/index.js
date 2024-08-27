@@ -9,11 +9,15 @@ const Size = require('./size');
 const Color = require('./color');
 const Texture = require('./texture');
 const ProductImage = require('./productImage');
+const NormalizedCategory = require('./normalizedCategory');
 
 // Define associations
 const defineAssociations = () => {
   Manufacturer.hasMany(Product, { foreignKey: 'manufacturer_id', as: 'products' });
   Product.belongsTo(Manufacturer, { foreignKey: 'manufacturer_id', as: 'manufacturer' });
+
+  NormalizedCategory.hasMany(Product, {foreignKey: 'name', as: 'products'});
+  Product.belongsTo(NormalizedCategory, {foreignKey: 'name', as: 'normalized_category_name'});
 
   Product.hasMany(Size, { foreignKey: 'product_id', as: 'sizes' });
   Size.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });

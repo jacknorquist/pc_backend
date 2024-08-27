@@ -11,23 +11,39 @@ const {Product, Manufacturer, Color, Texture, Size, ProductImage} = require('./m
 // Middleware to parse JSON
 app.use(express.json());
 //Middleware to authenticate
-// app.use(authenticate)
+app.use(authenticate)
 
 // Define routes
 app.get('/products', async (req, res) => {
   try {
-    const products = await Product.findAll();
+    const products = await Product.findAll({
+      include: [
+        {
+          model: ProductImage,
+          as: 'images',
+        },
+      ],
+    });
+
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: error });
   }
 });
 
-app.get('/product:productName', async (req, res) => {
+app.get('/products/:productId', async (req, res) => {
   const productId = req.params.productId;
   try {
     // Query the database for the product
-    const product = await Product.findByPk(productId);
+    const product = await Product.findByPk(productId, {
+      include: [
+        { model: Color, as: 'colors' },
+        { model: Size, as: 'sizes' },
+        { model: Texture, as: 'textures' },
+        { model: ProductImage, as: 'images' },
+        { model: Manufacturer, as: 'manufacturer' }
+      ]
+    });
 
     if (product) {
       // Send the product details as a response
