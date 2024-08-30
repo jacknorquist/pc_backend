@@ -58,7 +58,44 @@ app.get('/products/:productId', async (req, res) => {
   }
 });
 
+app.get('/products/:category', async (req, res) => {
+  const category = req.params.category; // Corrected parameter name
+  try {
+    // Query the database for products with the specified category
+    const products = await Product.findAll({
+      where: { normalized_category_name: category }, // Assuming 'category' is a column in Product
+      include: [
+        { model: Color, as: 'colors' },
+        { model: Size, as: 'sizes' },
+        { model: Texture, as: 'textures' },
+        { model: ProductImage, as: 'images' },
+        { model: Manufacturer, as: 'manufacturer' }
+      ]
+    });
+
+
+    if (products.length > 0) {
+      // Send the products as a response
+      res.json(products);
+    } else {
+      // No products found for the category
+      res.status(404).json({ error: 'No products found for this category' });
+    }
+  } catch (error) {
+    // Handle errors
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+
+function frequencys(arr){
+  let freqs = new Map()
+  for (let l of arr){
+    freqs.set(l, freqs.get(l)+1 || 1)
+  }
+}
