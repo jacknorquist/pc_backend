@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const Manufacturer = require('./manufacturer');
+const NormalizedCategory = require('./normalizedCategory');
  // Adjust the path if necessary
 
  const Product = sequelize.define('Product', {
@@ -12,6 +13,14 @@ const Manufacturer = require('./manufacturer');
   name: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  normalized_category_name:{
+    type: DataTypes.STRING,
+    allowNull: false,
+    references:{
+      model: NormalizedCategory,
+      key: 'name',
+    }
   },
   category: {
     type: DataTypes.STRING,

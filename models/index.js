@@ -16,8 +16,8 @@ const defineAssociations = () => {
   Manufacturer.hasMany(Product, { foreignKey: 'manufacturer_id', as: 'products' });
   Product.belongsTo(Manufacturer, { foreignKey: 'manufacturer_id', as: 'manufacturer' });
 
-  NormalizedCategory.hasMany(Product, {foreignKey: 'name', as: 'products'});
-  Product.belongsTo(NormalizedCategory, {foreignKey: 'name', as: 'normalized_category_name'});
+  NormalizedCategory.hasMany(Product, {foreignKey: 'normalized_category_name', as: 'products'});
+  Product.belongsTo(NormalizedCategory, {foreignKey: 'normalized_category_name', as: 'normalized_category'});
 
   Product.hasMany(Size, { foreignKey: 'product_id', as: 'sizes' });
   Size.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });

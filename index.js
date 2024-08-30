@@ -91,11 +91,3 @@ app.get('/products/:category', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-
-
-function frequencys(arr){
-  let freqs = new Map()
-  for (let l of arr){
-    freqs.set(l, freqs.get(l)+1 || 1)
-  }
-}
