@@ -79,7 +79,7 @@ app.get('/products/:category', async (req, res) => {
       res.json(products);
     } else {
       // No products found for the category
-      res.status(404).json({ error: 'No products found for this category' });
+      res.status(404).json({ error: 'No products found for this category. Please try agian' });
     }
   } catch (error) {
     // Handle errors
