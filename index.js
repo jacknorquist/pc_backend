@@ -5,7 +5,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const sequelize = require('./config/database');
 const authenticate = require('./middleware/auth')
-const {Product, Manufacturer, Color, Texture, Size, ProductImage} = require('./models/index');
+const {Product, Manufacturer, Color, Texture, Size, ProductImage, NormalizedCategory} = require('./models/index');
 app.use(cors());
 
 
@@ -65,29 +65,28 @@ app.get('/products/:productId', async (req, res) => {
 });
 
 app.get('/products/:category', async (req, res) => {
-  const category = req.params.category; // Corrected parameter name
+  const categoryName = req.params.category;
+
   try {
-    // Query the database for products with the specified category
-    const products = await Product.findAll({
-      where: { normalized_category_name: category }, // Assuming 'category' is a column in Product
+    // Find the category by name
+    const category = await NormalizedCategory.findOne({
+      where: { name: categoryName },
       include: [
-        { model: Color, as: 'colors' },
-        { model: ProductImage, as: 'images' },
-        { model: Manufacturer, as: 'manufacturer' }
+        {
+          model: Product,
+          as: 'products'
+        }
       ]
     });
 
-
-    if (products.length > 0) {
-      // Send the products as a response
-      res.json(products);
+    if (category) {
+      res.json(category.products);
     } else {
-      // No products found for the category
-      res.status(404).json({ error: 'No products found for this category. Please try agian' });
+      res.status(404).json({ error: 'No category found with this name.' });
     }
   } catch (error) {
-    // Handle errors
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error details:', error); // Log the complete error
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
 });
 

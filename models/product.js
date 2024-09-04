@@ -14,7 +14,7 @@ const NormalizedCategory = require('./normalizedCategory');
     type: DataTypes.STRING,
     allowNull: false,
   },
-  normalized_category_name:{
+  normalizedCategoryName:{
     type: DataTypes.STRING,
     allowNull: false,
     references:{

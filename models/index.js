@@ -16,8 +16,8 @@ const defineAssociations = () => {
   Manufacturer.hasMany(Product, { foreignKey: 'manufacturer_id', as: 'products' });
   Product.belongsTo(Manufacturer, { foreignKey: 'manufacturer_id', as: 'manufacturer' });
 
-  NormalizedCategory.hasMany(Product, {foreignKey: 'normalized_category_name', as: 'products'});
-  Product.belongsTo(NormalizedCategory, {foreignKey: 'normalized_category_name', as: 'normalized_category'});
+  NormalizedCategory.hasMany(Product, { foreignKey: 'normalizedCategoryName', as: 'products' });
+  Product.belongsTo(NormalizedCategory, { foreignKey: 'normalizedCategoryName', as: 'normalizedCategory' });
 
   Product.hasMany(Size, { foreignKey: 'product_id', as: 'sizes' });
   Size.belongsTo(Product, { foreignKey: 'product_id', as: 'product' });
@@ -45,4 +45,5 @@ module.exports = {
   Color,
   Texture,
   ProductImage,
+  NormalizedCategory,
 };
