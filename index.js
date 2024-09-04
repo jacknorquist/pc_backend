@@ -1,10 +1,12 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
 const sequelize = require('./config/database');
 const authenticate = require('./middleware/auth')
 const {Product, Manufacturer, Color, Texture, Size, ProductImage} = require('./models/index');
+app.use(cors());
 
 
 
@@ -21,6 +23,10 @@ app.get('/products', async (req, res) => {
         {
           model: ProductImage,
           as: 'images',
+        },
+        {
+          model: Color,
+          as: 'colors',
         },
       ],
     });
