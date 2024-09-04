@@ -72,8 +72,6 @@ app.get('/products/:category', async (req, res) => {
       where: { normalized_category_name: category }, // Assuming 'category' is a column in Product
       include: [
         { model: Color, as: 'colors' },
-        { model: Size, as: 'sizes' },
-        { model: Texture, as: 'textures' },
         { model: ProductImage, as: 'images' },
         { model: Manufacturer, as: 'manufacturer' }
       ]
