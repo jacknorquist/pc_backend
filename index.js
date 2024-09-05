@@ -38,7 +38,7 @@ app.get('/products', async (req, res) => {
 });
 
 app.get('/product/:productId', async (req, res) => {
-  const productId = req.params.productId;
+  const productId = Number(req.params.productId);
   try {
     // Query the database for the product
     const product = await Product.findByPk(productId, {
@@ -66,7 +66,7 @@ app.get('/product/:productId', async (req, res) => {
 
 app.get('/products/:category', async (req, res) => {
   const categoryName = req.params.category;
-  const cleanedCategoryName = categoryName.replace('-', ' ')
+  const cleanedCategoryName = categoryName.replace(/-/g, ' ')
 
   try {
     // Find the category by name
