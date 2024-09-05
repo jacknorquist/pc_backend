@@ -37,7 +37,7 @@ app.get('/products', async (req, res) => {
   }
 });
 
-app.get('/products/:productId', async (req, res) => {
+app.get('/product/:productId', async (req, res) => {
   const productId = req.params.productId;
   try {
     // Query the database for the product
@@ -66,15 +66,26 @@ app.get('/products/:productId', async (req, res) => {
 
 app.get('/products/:category', async (req, res) => {
   const categoryName = req.params.category;
+  const cleanedCategoryName = categoryName.replace('-', ' ')
 
   try {
     // Find the category by name
     const category = await NormalizedCategory.findOne({
-      where: { name: categoryName },
+      where: { name: cleanedCategoryName },
       include: [
         {
           model: Product,
-          as: 'products'
+          as: 'products',
+          include: [
+            {
+              model: ProductImage,
+              as: 'images'
+            },
+            {
+              model: Color,
+              as: 'colors'
+            }
+          ]
         }
       ]
     });
@@ -88,6 +99,7 @@ app.get('/products/:category', async (req, res) => {
     console.error('Error details:', error); // Log the complete error
     res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
+
 });
 
 // Start the server
