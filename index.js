@@ -8,6 +8,16 @@ const authenticate = require('./middleware/auth')
 const {Product, Manufacturer, Color, Texture, Size, ProductImage, NormalizedCategory} = require('./models/index');
 app.use(cors());
 
+const urlCategories ={
+  'pavers-slabs': 'Pavers & Slabs',
+  'permeable-pavements': 'Permeable Pavements',
+  'walls': 'Walls',
+  'steps': 'Steps',
+  'edgers': 'Edgers',
+  'caps': 'Caps',
+  'accessories': 'Accessories'
+}
+
 
 
 // Middleware to parse JSON
@@ -67,11 +77,10 @@ app.get('/product/:productId', async (req, res) => {
 app.get('/products/:category', async (req, res) => {
   const categoryName = req.params.category;
   const cleanedCategoryName = categoryName.replace(/-/g, ' ')
-
   try {
     // Find the category by name
     const category = await NormalizedCategory.findOne({
-      where: { name: cleanedCategoryName },
+      where: { name: urlCategories[categoryName] },
       include: [
         {
           model: Product,
