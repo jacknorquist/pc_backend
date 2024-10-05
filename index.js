@@ -15,6 +15,7 @@ const urlCategories ={
   'steps': 'Steps',
   'edgers': 'Edgers',
   'caps': 'Caps',
+  'outdoor-living-kits': 'Outdoor Living Kits',
   'accessories': 'Accessories'
 }
 
