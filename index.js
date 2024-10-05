@@ -15,7 +15,7 @@ const urlCategories ={
   'steps': 'Steps',
   'edgers': 'Edgers',
   'caps': 'Caps',
-  'outdoor-living-kits': 'Outdoor Living Kits',
+  'outdoor-&-fireplace-kits': 'Outdoor & Fireplace Kits',
   'accessories': 'Accessories'
 }
 
