@@ -40,6 +40,7 @@ app.get('/products', async (req, res) => {
           as: 'colors',
         },
       ],
+      order: [['name', 'ASC']]
     });
 
     res.json(products);
@@ -60,6 +61,7 @@ app.get('/product/:productId', async (req, res) => {
         { model: ProductImage, as: 'images' },
         { model: Manufacturer, as: 'manufacturer' }
       ]
+
     });
 
     if (product) {
@@ -95,7 +97,8 @@ app.get('/products/:category', async (req, res) => {
               model: Color,
               as: 'colors'
             }
-          ]
+          ],
+          order: [['name', 'ASC']]
         }
       ]
     });
