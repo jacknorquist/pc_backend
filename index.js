@@ -79,40 +79,39 @@ app.get('/product/:productId', async (req, res) => {
 
 app.get('/products/:category', async (req, res) => {
   const categoryName = req.params.category;
-  const cleanedCategoryName = categoryName.replace(/-/g, ' ')
+  const cleanedCategoryName = categoryName.replace(/-/g, ' ');
+
   try {
-    // Find the category by name
-    const category = await NormalizedCategory.findOne({
-      where: { name: urlCategories[categoryName] },
+    // Directly fetch products by category name
+    const products = await Product.findAll({
       include: [
         {
-          model: Product,
-          as: 'products',
-          include: [
-            {
-              model: ProductImage,
-              as: 'images'
-            },
-            {
-              model: Color,
-              as: 'colors'
-            }
-          ],
-          order: [['name', 'ASC']]
+          model: NormalizedCategory,
+          as: 'normalizedCategory',
+          where: { name: urlCategories[categoryName] },
+          required: true,
+        },
+        {
+          model: ProductImage,
+          as: 'images'
+        },
+        {
+          model: Color,
+          as: 'colors'
         }
-      ]
+      ],
+      order: [['name', 'ASC']] // Sort products by name
     });
 
-    if (category) {
-      res.json(category.products);
+    if (products.length) {
+      res.json(products);
     } else {
-      res.status(404).json({ error: 'No category found with this name.' });
+      res.status(404).json({ error: 'No products found for this category.' });
     }
   } catch (error) {
-    console.error('Error details:', error); // Log the complete error
+    console.error('Error details:', error);
     res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
-
 });
 
 // Start the server
