@@ -114,6 +114,27 @@ app.get('/products/:category', async (req, res) => {
   }
 });
 
+
+app.get('/categories', async (req, res) => {
+  try {
+    // Fetch all categories without any associations
+    const categories = await NormalizedCategory.findAll({
+      attributes: ['name'], // Only select the 'name' attribute
+      order: [['name', 'ASC']], // Sort categories by name
+    });
+
+    // Check if categories exist
+    if (categories.length) {
+      res.json(categories); // Send back the category names
+    } else {
+      res.status(404).json({ error: 'No categories found.' }); // Handle no categories case
+    }
+  } catch (error) {
+    console.error('Error details:', error);
+    res.status(500).json({ error: 'Internal Server Error', details: error.message }); // Handle server errors
+  }
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
